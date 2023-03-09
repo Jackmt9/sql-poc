@@ -1,8 +1,13 @@
-CREATE VIEW TaxiView5
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE OR ALTER VIEW [dbo].[TaxiView2] 
 AS SELECT
     *
 FROM
     OPENROWSET(
         BULK 'https://jackacct1.dfs.core.windows.net/filesys1/NYCTripSmall.parquet',
         FORMAT = 'PARQUET'
-    ) AS [result] 
+    ) AS [result]
+GO
