@@ -13,7 +13,7 @@ steps:
 - template: azTemplate/CombineAndRunSQLFiles.yml # Functions: UTIL
   parameters:
     path: "$(System.DefaultWorkingDirectory)\\Views"
-    match: "UTIL_*.sql"
+    match: "*.sql"
     outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
     outName: "UTIL.sql"
 # - template: azTemplate/CombineAndRunSQLFiles.yml # Functions: BASE
