@@ -42,18 +42,13 @@ steps:
 #     SqlUsername: '$(SQL_UserName)'
 #     SqlPassword: '$(SQL_Password)'
 #   displayName: 'Create or Alter: ${{parameters.outName}}'
-- task: SqlAzureDacpacDeployment@1
-  displayName: 'Install DACPAC on serverless SQL Pool'
+
+- task: PowerShell@2
   inputs:
-    azureSubscription: $(AzureSubscription)
-    AuthenticationType: 'server'
-    ServerName: $(SQLPoolEndPoint)
-    DatabaseName: '$(DestinationDB)'
-    SqlUsername: '$(SQLPooluser)'
-    SqlPassword: '$(SQLPoolpw)'
-    deployType: 'DacpacTask'
-    DeploymentAction: 'Publish'
-    DacpacFile: '${{parameters.outPath}}\${{parameters.outName}}'
+    targetType: 'inline'
+    script: Invoke-Sqlcmd -InputFile "${{parameters.outPath}}\${{parameters.outName}}" -ServerInstance $(SQL_ServerName).database.windows.net -Database $(SQL_DatabaseName) -Username "$(SQL_UserName)" -Password "$(SQL_Password)" -QueryTimeout 36000 -Verbose
+  displayName: 'Run SQL Script'
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
