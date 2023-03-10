@@ -46,7 +46,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: Invoke-Sqlcmd -InputFile "${{parameters.outPath}}\${{parameters.outName}}" -ServerInstance $(SQLPoolEndpoint) -Database $(SQL_DatabaseName) -Username "$(SQL_UserName)" -Password "$(SQL_Password)" -QueryTimeout 36000 -Verbose
+    script: Invoke-Sqlcmd -InputFile "${{parameters.outPath}}\${{parameters.outName}}" -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password "$(SQLPoolpw)" -QueryTimeout 36000 -Verbose
   displayName: 'Run SQL Script'
 
 - task: PowerShell@2
