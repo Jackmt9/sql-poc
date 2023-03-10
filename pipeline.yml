@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: MKDIR "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
+  displayName: 'Create Output Folder'
+- template: azTemplate/CombineAndRunSQLFiles.yml # Functions: UTIL
+  parameters:
+    path: "$(System.DefaultWorkingDirectory)\\Views"
+    match: "UTIL_*.sql"
+    outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
+    outName: "UTIL.sql"
+# - template: azTemplate/CombineAndRunSQLFiles.yml # Functions: BASE
+#   parameters:
+#     path: "$(System.DefaultWorkingDirectory)\\Functions"
+#     match: "BASE_*.sql"
+#     outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
+#     outName: "BASE.sql"

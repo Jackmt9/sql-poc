@@ -1,0 +1,48 @@
+# Template for executing all SQL files matching a string search
+
+parameters:
+- name: path #$path = "$(System.DefaultWorkingDirectory)\Functions"
+  type: string
+- name: match #$match = "BASE_*.sql"
+  type: string
+- name: outPath #$outPath = "$(System.DefaultWorkingDirectory)\Functions"
+  type: string
+- name: outName #$outName = "BASE.sql"
+  type: string
+
+steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo Source Files:
+      Get-ChildItem ${{parameters.path}} -include ${{parameters.match}} -rec 
+  displayName: 'Files to process: ${{parameters.match}}'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo Creating: ${{parameters.outPath}}\${{parameters.outName}}
+      Get-ChildItem ${{parameters.path}} -include ${{parameters.match}} -rec | ForEach-Object {gc $_; ""} | out-file ${{parameters.outPath}}\${{parameters.outName}}
+  displayName: 'Combine: ${{parameters.outName}}'
+- task: PublishPipelineArtifact@1
+  inputs:
+   targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
+   artifact: '${{parameters.outName}}'
+   publishLocation: 'pipeline'
+  displayName: 'Publish: ${{parameters.outName}}'
+- task: SqlDacpacDeploymentOnMachineGroup@0
+  inputs:
+    TaskType: 'sqlQuery'
+    SqlFile: '${{parameters.outPath}}\${{parameters.outName}}'
+    ServerName: '$(SQL_ServerName).database.windows.net'
+    DatabaseName: '$(SQL_DatabaseName)'
+    AuthScheme: 'sqlServerAuthentication'
+    SqlUsername: '$(SQL_UserName)'
+    SqlPassword: '$(SQL_Password)'
+  displayName: 'Create or Alter: ${{parameters.outName}}'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: Remove-Item ${{parameters.path}}\${{parameters.match}} -Recurse
+  displayName: 'Delete Files: ${{parameters.match}}' 
