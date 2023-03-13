@@ -47,6 +47,19 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      CREATE DATABASE SCOPED CREDENTIAL SynapseIdentity
+      WITH IDENTITY = 'Managed Identity'
+      CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'sdfgje432FND'
+      GO
+      CREATE LOGIN synlog WITH PASSWORD = 'sdfgje432FND''
+      CREATE USER synlog FROM LOGIN synlog
+      ALTER ROLE db datareader ADD MEMBER synlog
+  displayName: 'Set Permissions'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
       Invoke-Sqlcmd -InputFile "${{parameters.outPath}}\${{parameters.outName}}" -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password "$(SQLPoolpw)" -QueryTimeout 36000 -Verbose
   displayName: 'Run SQL Script'
 
