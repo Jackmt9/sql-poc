@@ -15,7 +15,7 @@ stages:
       outName: "UTIL.sql"
 
 - stage: Deploy
-  dependersOn: Build
+  dependsOn: Build
   condition: succeeded()
   jobs:
   - template: pipelines/stages/deploy-to-serverless-db.yml\
