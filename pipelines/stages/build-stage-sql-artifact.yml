@@ -8,6 +8,12 @@ jobs:
   # Create Output Folder
   - template: steps/create-output-folder.yml
 
+  # List Files to Process
+  - template: steps/list-files-to-process.yml
+    parameters: 
+      path: ${{parameters.path}}
+      match: ${{parameters.match}}
+
   # Combine SQL files
   - template: steps/combine-sql-files.yml
     parameters: 
