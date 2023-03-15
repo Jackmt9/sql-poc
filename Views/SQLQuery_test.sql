@@ -3,6 +3,7 @@ AS SELECT
     *
 FROM
     OPENROWSET(
-        BULK 'https://jackacct4.dfs.core.windows.net/filesys1/NYCTripSmall.parquet',
+        BULK 'NYCTripSmall.parquet',
+        DATA_SOURCE = 'SynapseCDatalake',
         FORMAT = 'PARQUET'
     ) AS [result] 
