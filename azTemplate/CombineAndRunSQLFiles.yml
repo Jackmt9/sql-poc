@@ -23,7 +23,7 @@ steps:
     targetType: 'inline'
     script: |
       echo Creating: ${{parameters.outPath}}\${{parameters.outName}}
-      Get-ChildItem ${{parameters.path}} -include ${{parameters.match}} -rec | ForEach-Object {"GO`r`n" + (gc $_) + "" } | out-file ${{parameters.outPath}}\${{parameters.outName}}
+      Get-ChildItem ${{parameters.path}} -include ${{parameters.match}} -rec | ForEach-Object {(gc $_) + "GO`r`n"} | out-file ${{parameters.outPath}}\${{parameters.outName}}
   displayName: 'Combine SQL Scripts into ${{parameters.outName}}'
 - task: PublishPipelineArtifact@1
   inputs:
