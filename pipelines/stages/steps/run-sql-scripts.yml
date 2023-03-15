@@ -3,5 +3,5 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Invoke-Sqlcmd -InputFile "$(Build.ArtifactStagingDirectory)/${{outName}}/${{outName}}" -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
+      Invoke-Sqlcmd -InputFile "$(Build.ArtifactStagingDirectory)/${{paramters.outName}}/${{parameters.outName}}" -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
   displayName: 'Run SQL Script'
