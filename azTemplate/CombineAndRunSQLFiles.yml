@@ -11,6 +11,7 @@ parameters:
   type: string
 
 steps:
+---build
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -31,6 +32,8 @@ steps:
    targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
    publishLocation: 'pipeline'
   displayName: 'Publish: ${{parameters.outName}}'
+
+---deploy
 - task: PowerShell@2
   inputs:
     targetType: 'inline'

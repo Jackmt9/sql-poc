@@ -1,0 +1,22 @@
+jobs:
+- job: deploy
+  displayName: Deploy SQL Scripts
+  continueOnError: false
+  pool: ${{parameters.pool}}
+
+  steps:
+  # Run SQL Scripts
+  - template: steps/run-sql-scripts.yml
+    parameters:
+      outPath: ${{parameters.outPath}}
+      outName: ${{parameters.outName}}
+      path: ${{parameters.path}}
+      match: ${{parameters.match}}
+  
+  # Delete Combined SQL Files File
+  - template: steps/delete-files.yml
+    parameters:
+      outPath: ${{parameters.outPath}}
+      outName: ${{parameters.outName}}
+      path: ${{parameters.path}}
+      match: ${{parameters.match}}

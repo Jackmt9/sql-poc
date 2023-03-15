@@ -1,0 +1,23 @@
+jobs:
+- job: build
+  displayName: Build SQL Artifact
+  continueOnError: false
+  pool: ${{parameters.pool}}
+
+  steps:
+  # Create Output Folder
+  - template: steps/create-output-folder.yml
+  
+  # Combine SQL files
+  - template: steps/combine-sql-files.yml
+    parameters: 
+      outPath: ${{parameters.outPath}}
+      outName: ${{parameters.outName}}
+      path: ${{parameters.path}}
+      match: ${{parameters.match}}
+
+  # Publish Artifact
+  - template: steps/publish-artifact.yml
+    parameters: 
+      outPath: ${{parameters.outPath}}
+      outName: ${{parameters.outName}}
