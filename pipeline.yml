@@ -20,6 +20,14 @@ stages:
   dependsOn: Build
   condition: succeeded()
   jobs:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        here:
+        Get-ChildItem $(System.DefaultWorkingDirectory)\\Combined\\Functions -rec 
+    displayName: 'here'
+
   - template: pipelines/stages/deploy-to-serverless-db.yml\
     parameters:
       path: "$(System.DefaultWorkingDirectory)\\Views"
