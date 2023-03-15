@@ -8,6 +8,7 @@ stages:
 - stage: Build
   jobs:
   - template: pipelines/stages/build-stage-sql-artifact.yml
+    parameters:
       path: "$(System.DefaultWorkingDirectory)\\Views"
       match: "*.sql"
       outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
@@ -17,7 +18,8 @@ stages:
   dependersOn: Build
   condition: succeeded()
   jobs:
-  - template: pipelines/stages/deploy-to-serverless-db.yml
+  - template: pipelines/stages/deploy-to-serverless-db.yml\
+    parameters:
       path: "$(System.DefaultWorkingDirectory)\\Views"
       match: "*.sql"
       outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
