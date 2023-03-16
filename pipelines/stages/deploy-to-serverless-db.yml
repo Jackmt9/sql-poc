@@ -6,13 +6,6 @@ jobs:
   pool: ${{parameters.pool}}
 
   steps:
-  - task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Get-ChildItem -Path '${{parameters.outPath}}' -Recurse | Select-Object FullName
-  displayName: 'List files in outPath'
-  
   # Run SQL Scripts
   - template: steps/run-sql-scripts.yml
     parameters:
