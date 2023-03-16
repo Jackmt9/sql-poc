@@ -1,5 +1,5 @@
 steps:
-- download: current
+- task: DownloadPipelineArtifact@2
   inputs: 
     artifactName: '${{parameters.outName}}'
     targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
