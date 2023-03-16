@@ -1,6 +1,6 @@
 steps:
 - download: current
-  artifact: ${{parameters.outName}}
+  artifact: sqlArtifact
 
 - task: PowerShell@2
   inputs:
