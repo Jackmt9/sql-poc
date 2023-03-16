@@ -8,6 +8,6 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $utilSqlPath = "${{parameters.outPath}}\${{parameters.outName}}\Combined\Functions\UTIL.sql"
+      $utilSqlPath = "${{parameters.outPath}}\${{parameters.outName}}"
       Invoke-Sqlcmd -InputFile $utilSqlPath -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
   displayName: 'Run SQL Script'
