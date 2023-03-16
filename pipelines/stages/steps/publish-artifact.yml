@@ -2,6 +2,7 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
    artifact: '${{parameters.outName}}'
+   artifactName: '${{parameters.outName}}'
    targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
    publishLocation: 'pipeline'
   displayName: 'Publish: ${{parameters.outName}}'
