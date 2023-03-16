@@ -8,5 +8,6 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      dir "${{parameters.outPath}}"
       Invoke-Sqlcmd -InputFile "${{parameters.outPath}}\${{parameters.outName}}" -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
   displayName: 'Run SQL Script'
