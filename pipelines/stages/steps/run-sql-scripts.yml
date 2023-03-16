@@ -1,7 +1,8 @@
 steps:
 - download: current
-  artifact: '${{parameters.outName}}'
-  targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
+  inputs: 
+    artifactName: '${{parameters.outName}}'
+    targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
 
 - task: PowerShell@2
   inputs:
