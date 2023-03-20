@@ -17,12 +17,12 @@ stages:
     jobs:
       - template: pipelines/stages/build-stage-sql-artifact.yml
         parameters:
-          path: variables.path
-          match: variables.match
-          outPath: variables.outPath
-          outName: variables.outName
-          artifactName: variables.artifactName
-          artifactLocation: variables.artifactLocation
+          path: ${{variables.path}}
+          match: ${{variables.match}}
+          outPath: ${{variables.outPath}}
+          outName: ${{variables.outName}}
+          artifactName: ${{variables.artifactName}}
+          artifactLocation: ${{variables.artifactLocation}}
           pool:
             vmImage: "windows-latest"
 
@@ -32,11 +32,11 @@ stages:
     jobs:
       - template: pipelines/stages/deploy-to-serverless-db.yml\
         parameters:
-          path: variables.path
-          match: variables.match
-          outPath: variables.outPath
-          outName: variables.outName
-          artifactName: variables.artifactName
-          artifactLocation: variables.artifactLocation
+          path: ${{variables.path}}
+          match: ${{variables.match}}
+          outPath: ${{variables.outPath}}
+          outName: ${{variables.outName}}
+          artifactName: ${{variables.artifactName}}
+          artifactLocation: ${{variables.artifactLocation}}
           pool:
             vmImage: "windows-latest"
