@@ -11,9 +11,8 @@ variables:
   outName: "UTIL.sql"
   pool:
     vmImage: "windows-latest"
-  artifact: 
-    name: compiledSQL.sql
-    location: $(System.DefaultWorkingDirectory)
+  artifactName: compiledSQL
+  artifactLocation: $(System.DefaultWorkingDirectory)
 
 stages:
   - stage: Build
@@ -25,7 +24,8 @@ stages:
           outPath: variables.outPath
           outName: variables.outName
           pool: variables.pool
-          artifact: variables.artifact
+          artifactName: variables.artifactName
+          artifactLocation: variables.artifactLocation
 
   - stage: Deploy
     dependsOn: Build
@@ -37,4 +37,6 @@ stages:
           match: variables.match
           outPath: variables.outPath
           outName: variables.outName
+          artifactName: variables.artifactName
+          artifactLocation: variables.artifactLocation
           pool: variables.pool

@@ -4,5 +4,5 @@ steps:
     targetType: 'inline'
     script: |
       echo Creating: ${{parameters.outPath}}\${{parameters.outName}}
-      Get-ChildItem ${{parameters.path}} -include ${{parameters.match}} -rec | ForEach-Object {(gc $_) + "GO`r`n"} | out-file $(parameters.artifact.location)/$(parameters.artifact.name)
+      Get-ChildItem ${{parameters.path}} -include ${{parameters.match}} -rec | ForEach-Object {(gc $_) + "GO`r`n"} | out-file $(parameters.artifactLocation)/$(parameters.artifactName)
   displayName: 'Combine SQL Scripts into ${{parameters.outName}}'

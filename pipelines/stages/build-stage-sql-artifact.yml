@@ -17,11 +17,13 @@ jobs:
   # Combine SQL files
   - template: steps/combine-sql-files.yml
     parameters: 
-      artifact: ${{parameters.artifact}}
+      artifactName: ${{parameters.artifactName}}
+      artifactLocation: ${{parameters.artifactLocation}}
       path: ${{parameters.path}}
       match: ${{parameters.match}}
 
   # Publish Artifact
   - template: steps/publish-artifact.yml
     parameters: 
-      artifact: ${{parameters.artifact}}
+      artifactName: ${{parameters.artifactName}}
+      artifactLocation: ${{parameters.artifactLocation}}
