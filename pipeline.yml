@@ -21,7 +21,6 @@ stages:
           match: variables.match
           outPath: variables.outPath
           outName: variables.outName
-          pool: variables.pool
           artifactName: variables.artifactName
           artifactLocation: variables.artifactLocation
           pool:
