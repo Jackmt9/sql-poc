@@ -11,7 +11,7 @@ variables:
   # outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
   outName: "UTIL.sql"
   artifactName: compiledSQL
-  artifactLocation: $(System.DefaultWorkingDirectory)
+  artifactLocation: $(Build.ArtifactStagingDirectory)
 
 stages:
   - stage: Build
