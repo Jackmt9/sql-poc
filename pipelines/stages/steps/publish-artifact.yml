@@ -7,6 +7,6 @@ steps:
 #    publishLocation: 'pipeline'
 #   displayName: 'Publish: ${{parameters.outName}}'
 
-- publish: ${{parameters.templateDirectory}}
+- publish: ${{parameters.artifactLocation}}
   displayName: Publish Artifacts ${{parameters.artifactName}}
   artifact: ${{parameters.artifactName}}
