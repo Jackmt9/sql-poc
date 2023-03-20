@@ -1,8 +1,12 @@
 steps:
-- task: PublishPipelineArtifact@1
-  inputs:
-   artifact: '${{parameters.outName}}'
-  #  artifactName: 'sqlArtifact'
-   targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
-   publishLocation: 'pipeline'
-  displayName: 'Publish: ${{parameters.outName}}'
+# - task: PublishPipelineArtifact@1
+#   inputs:
+#    artifact: '${{parameters.outName}}'
+#   #  artifactName: 'sqlArtifact'
+#    targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
+#    publishLocation: 'pipeline'
+#   displayName: 'Publish: ${{parameters.outName}}'
+
+- publish: ${{parameters.templateDirectory}}
+  displayName: Publish Artifacts ${{parameters.artifactName}}
+  artifact: ${{parameters.artifactName}}

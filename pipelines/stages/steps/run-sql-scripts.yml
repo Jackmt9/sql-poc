@@ -1,13 +1,15 @@
 steps:
-- task: DownloadPipelineArtifact@2
-  inputs: 
-    artifactName: '${{parameters.outName}}'
-    targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
+# - task: DownloadPipelineArtifact@2
+#   inputs: 
+#     artifactName: '${{parameters.outName}}'
+#     targetPath: '${{parameters.outPath}}\${{parameters.outName}}'
+- download: current
+  artifact: '${{parameters.artifact.name}}'
 
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      $utilSqlPath = "${{parameters.outPath}}\${{parameters.outName}}"
+      $utilSqlPath = "${{parameters.artifact.location}}\${{parameters.artifact.name}}"
       Invoke-Sqlcmd -InputFile $utilSqlPath -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username "$(SQLPooluser)" -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
   displayName: 'Run SQL Script'

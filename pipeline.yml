@@ -1,30 +1,40 @@
 trigger:
-- main
+  - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: "windows-latest"
+
+variables:
+  path: "$(System.DefaultWorkingDirectory)\\Views"
+  match: "*.sql"
+  outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
+  outName: "UTIL.sql"
+  pool:
+    vmImage: "windows-latest"
+  artifact: 
+    name: compiledSQL.sql
+    location: $(System.DefaultWorkingDirectory)
 
 stages:
-- stage: Build
-  jobs:
-  - template: pipelines/stages/build-stage-sql-artifact.yml
-    parameters:
-      path: "$(System.DefaultWorkingDirectory)\\Views"
-      match: "*.sql"
-      outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
-      outName: "UTIL.sql"
-      pool: 
-        vmImage: 'windows-latest'
+  - stage: Build
+    jobs:
+      - template: pipelines/stages/build-stage-sql-artifact.yml
+        parameters:
+          path: variables.path
+          match: variables.match
+          outPath: variables.outPath
+          outName: variables.outName
+          pool: variables.pool
+          artifact: variables.artifact
 
-- stage: Deploy
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - template: pipelines/stages/deploy-to-serverless-db.yml\
-    parameters:
-      path: "$(System.DefaultWorkingDirectory)\\Views"
-      match: "*.sql"
-      outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
-      outName: "UTIL.sql"
-      pool: 
-        vmImage: 'windows-latest'
+  - stage: Deploy
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - template: pipelines/stages/deploy-to-serverless-db.yml\
+        parameters:
+          path: variables.path
+          match: variables.match
+          outPath: variables.outPath
+          outName: variables.outName
+          pool: variables.pool

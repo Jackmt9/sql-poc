@@ -6,7 +6,7 @@ jobs:
 
   steps:
   # Create Output Folder
-  - template: steps/create-output-folder.yml
+  # - template: steps/create-output-folder.yml
 
   # List Files to Process
   - template: steps/list-files-to-process.yml
@@ -17,13 +17,11 @@ jobs:
   # Combine SQL files
   - template: steps/combine-sql-files.yml
     parameters: 
-      outPath: ${{parameters.outPath}}
-      outName: ${{parameters.outName}}
+      artifact: ${{parameters.artifact}}
       path: ${{parameters.path}}
       match: ${{parameters.match}}
 
   # Publish Artifact
   - template: steps/publish-artifact.yml
     parameters: 
-      outPath: ${{parameters.outPath}}
-      outName: ${{parameters.outName}}
+      artifact: ${{parameters.artifact}}
