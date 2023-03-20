@@ -5,7 +5,7 @@ pool:
   vmImage: "windows-latest"
 
 variables:
-  path: "$(System.DefaultWorkingDirectory)\\Views"
+  # path: "$(System.DefaultWorkingDirectory)\\Views"
   match: "*.sql"
   outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
   outName: "UTIL.sql"
@@ -17,7 +17,7 @@ stages:
     jobs:
       - template: pipelines/stages/build-stage-sql-artifact.yml
         parameters:
-          path: ${{variables.path}}
+          path: "$(System.DefaultWorkingDirectory)\\Views"
           match: ${{variables.match}}
           outPath: ${{variables.outPath}}
           outName: ${{variables.outName}}
@@ -32,7 +32,7 @@ stages:
     jobs:
       - template: pipelines/stages/deploy-to-serverless-db.yml\
         parameters:
-          path: ${{variables.path}}
+          path: "$(System.DefaultWorkingDirectory)\\Views"
           match: ${{variables.match}}
           outPath: ${{variables.outPath}}
           outName: ${{variables.outName}}
