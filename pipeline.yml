@@ -9,8 +9,6 @@ variables:
   match: "*.sql"
   outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
   outName: "UTIL.sql"
-  pool:
-    vmImage: "windows-latest"
   artifactName: compiledSQL
   artifactLocation: $(System.DefaultWorkingDirectory)
 
@@ -26,6 +24,8 @@ stages:
           pool: variables.pool
           artifactName: variables.artifactName
           artifactLocation: variables.artifactLocation
+          pool:
+            vmImage: "windows-latest"
 
   - stage: Deploy
     dependsOn: Build
@@ -39,4 +39,5 @@ stages:
           outName: variables.outName
           artifactName: variables.artifactName
           artifactLocation: variables.artifactLocation
-          pool: variables.pool
+          pool:
+            vmImage: "windows-latest"
