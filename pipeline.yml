@@ -38,5 +38,6 @@ stages:
           script: |
             $files = Get-ChildItem -Path $(Pipeline.Workspace)\sql-drop -Filter *.sql -File
             foreach ($file in $files) {
-              Invoke-Sqlcmd -InputFile $file -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username $(SQLPoolUser) -Password $(SQLPoolpw) -QueryTimeout 36000 -Verbose
+              echo 'Invoking SQL '
+              Invoke-Sqlcmd -InputFile $file.FullName -ServerInstance '$(SQLPoolEndpoint)' -Database '$(DestinationDB)' -Username '$(SQLPoolUser)' -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
             }
