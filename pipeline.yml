@@ -36,8 +36,9 @@ stages:
         inputs: 
           targetType: 'inline'
           script: |
-            $files = (Get-ChildItem -Path $(Pipeline.Workspace)\sql-drop -Filter *.sql -File).Fullname
+            $rootPath = $(Pipeline.Workspace)\sql-drop
+            $files = Get-ChildItem -Path $rootPath -Filter *.sql -Recurse | Where-Object { !$_.PSIsContainer }
             foreach ($file in $files) {
-              echo "Invoking SQL for $file ..."
-              Invoke-Sqlcmd -InputFile $file -ServerInstance '$(SQLPoolEndpoint)' -Database '$(DestinationDB)' -Username '$(SQLPoolUser)' -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
+              echo "Invoking SQL for $file.FullName ..."
+              Invoke-Sqlcmd -InputFile $file.FullName -ServerInstance '$(SQLPoolEndpoint)' -Database '$(DestinationDB)' -Username '$(SQLPoolUser)' -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
             }
