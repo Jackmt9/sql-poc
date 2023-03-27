@@ -4,29 +4,37 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-steps:
-- task: PublishPipelineArtifact@1
-  displayName: 'Publish template-drop Artifact'
-  inputs:
-    source: 'current'
-    branchName: 'test'
-    buildVersionToDownload: 'latestFromBranch'
-    artifact: template-drop
-    targetPath: '$(Pipeline.Workspace)'
-# - task: PowerShell@2
-#   inputs:
-#     targetType: 'inline'
-#     script: MKDIR "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
-#   displayName: 'Create Output Folder'
-# - template: azTemplate/CombineAndRunSQLFiles.yml # Functions: UTIL
-#   parameters:
-#     path: "$(System.DefaultWorkingDirectory)\\Views"
-#     match: "*.sql"
-#     outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
-#     outName: "UTIL.sql"
-# - template: azTemplate/CombineAndRunSQLFiles.yml # Functions: BASE
-#   parameters:
-#     path: "$(System.DefaultWorkingDirectory)\\Functions"
-#     match: "BASE_*.sql"
-#     outPath: "$(System.DefaultWorkingDirectory)\\Combined\\Functions"
-#     outName: "BASE.sql"
+stages:
+  - stage: build
+    jobs:
+    - job: run_build
+      pool:
+        vmImage: 'windows-latest'
+
+      steps:
+        - task: CopyFiles@2
+          displayName: 'Copy scripts'
+          inputs:
+            contents: 'scripts/**'
+            targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+        - publish: '$(Build.ArtifactStagingDirectory)/scripts'
+          displayName: 'Publish script'
+          artifact: sql-drop
+
+  - stage: release
+    dependsOn: build
+    jobs:
+    - job: deploy_sql
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - download: current
+        artifact: sql-drop
+      - task: PowerShell@2'
+        displayName: 'Run SQL Scripts'
+        input: |
+          $files = Get-Children -Path $(Pipeline.Workspace)\sql-drop -Filter *.sql -File
+          foreach ($file in $files) {
+            Invoke-Sqlcmd -InputFile $file -ServerInstance $(SQLPoolEndpoint) -Database $(DestinationDB) -Username $(SQLPoolUser) -Password $(SQLPoolpw) -QueryTimeout 36000 -Verbose
+          }
