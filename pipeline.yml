@@ -31,7 +31,7 @@ stages:
       steps:
       - download: current
         artifact: sql-drop
-      - task: PowerShell@2'
+      - task: PowerShell@2
         displayName: 'Run SQL Scripts'
         inputs: 
           targetType: 'inline'
