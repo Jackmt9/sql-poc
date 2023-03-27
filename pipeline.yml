@@ -1,5 +1,5 @@
 trigger:
-- main
+- test2
 
 pool:
   vmImage: 'windows-latest'
@@ -38,6 +38,6 @@ stages:
           script: |
             $files = Get-ChildItem -Path $(Pipeline.Workspace)\sql-drop -Filter *.sql -File
             foreach ($file in $files) {
-              echo 'Invoking SQL '
+              echo "Invoking SQL for $file.FullName ..."
               Invoke-Sqlcmd -InputFile $file.FullName -ServerInstance '$(SQLPoolEndpoint)' -Database '$(DestinationDB)' -Username '$(SQLPoolUser)' -Password '$(SQLPoolpw)' -QueryTimeout 36000 -Verbose
             }
