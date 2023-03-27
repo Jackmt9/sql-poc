@@ -36,7 +36,7 @@ stages:
         inputs: 
           targetType: 'inline'
           script: |
-            $rootPath = $(Pipeline.Workspace)\sql-drop
+            $rootPath = "$(Pipeline.Workspace)\sql-drop"
             $files = Get-ChildItem -Path $rootPath -Filter *.sql -Recurse | Where-Object { !$_.PSIsContainer }
             foreach ($file in $files) {
               echo "Invoking SQL for $file.FullName ..."
