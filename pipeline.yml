@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'VM002'
 
 steps:
 - task: PublishPipelineArtifact@1
